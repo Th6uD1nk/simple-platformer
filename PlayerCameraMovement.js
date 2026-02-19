@@ -7,11 +7,18 @@ class PlayerCameraMovement {
         this.scrollLocked = false;
     }
 
-    setSpaceLevel(spaceLevel, startPosition) {
+    setSpaceLevel(spaceLevel, startPosition, player = null) {
         this.spaceLevel = spaceLevel;
         this.scrolling = false;
         this.scrollLocked = false;
-        this.offset.x = spaceLevel.x;
+
+        if (player) {
+            const targetX = player.x + player.width / 2 - this.canvas.width / 2;
+            const maxOffsetX = spaceLevel.x + spaceLevel.width - this.canvas.width;
+            this.offset.x = Math.max(spaceLevel.x, Math.min(targetX, maxOffsetX));
+        } else {
+            this.offset.x = spaceLevel.x;
+        }
         this.offset.y = startPosition.y - this.canvas.height / 2;
     }
 

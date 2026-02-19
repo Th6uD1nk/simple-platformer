@@ -9,13 +9,19 @@ class CameraZoneTrigger {
         this._endReached = false;
     }
 
-    setContext(spaceLevel, canvasWidth, canvasHeight) {
+    setContext(spaceLevel, canvasWidth, canvasHeight, player = null) {
         this.spaceLevel = spaceLevel;
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        this._midReached = false;
-        this._endReached = false;
+
+        const mid = spaceLevel.x + canvasWidth / 2;
+        const endThreshold = spaceLevel.x + spaceLevel.width - canvasWidth / 2;
+        const playerCenter = player ? player.x + player.width / 2 : -Infinity;
+
+        this._midReached = playerCenter >= mid;
+        this._endReached = playerCenter >= endThreshold;
     }
+
 
     registerZones(zones) {
         this.zones = zones.map(z => ({ ...z, _active: false }));

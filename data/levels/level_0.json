@@ -1,0 +1,15 @@
+{
+  "startPosition": { "x": 200, "y": 300 },
+  "spaces": [
+    { "path": "/data/spaces/space_0.json", "worldX": 0, "worldY": 0 },
+    { "path": "/data/spaces/space_1.json", "worldX": 2560, "worldY": 0 }
+  ],
+  "zones": [
+    {
+      "id": "exit_space_0",
+      "x": 2520, "y": 0, "width": 40, "height": 600,
+      "type": "spaceTransition",
+      "targetSpaceIndex": 1
+    }
+  ]
+}

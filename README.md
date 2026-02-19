@@ -15,8 +15,6 @@
 graph LR
     subgraph init["Init"]
         main1["main.js"] -->|new| LM1["LevelManager"]
-        main1 -->|new| PL1["Player"]
-        LM1 -->|new| RM1["ResourceManager"]
         LM1 -->|new| PCM1["PlayerCameraMovement"]
         LM1 -->|new| CZT1["CameraZoneTrigger"]
         LM1 -->|new| LSL1["LevelSpaceLoader"]
@@ -26,10 +24,13 @@ graph LR
 ```mermaid
 graph LR
     subgraph load["Load Level"]
-        LM2["LevelManager"] -->|getLevelDefinition| RM2["ResourceManager"]
+        LM2["LevelManager"] -->|fetch level_n.json| JSON2["level_n.json"]
+        JSON2 -->|spaces paths + zones| LM2
+        LM2 -->|calcul worldX, resolve zones tiles→px| LM2
+        LM2 -->|fetch space_n.json| LSL2["LevelSpaceLoader"]
+        LSL2 -->|new| SL2["SpaceLevel"]
         LM2 -->|setSpaceLevel| PCM2["PlayerCameraMovement"]
         LM2 -->|setContext, registerZones| CZT2["CameraZoneTrigger"]
-        LM2 -->|load| LSL2["LevelSpaceLoader"]
     end
 ```
 
@@ -42,7 +43,8 @@ graph LR
         CZT3 -->|scrollStart, scrollEnd, zoneEnter| LM3
         LM3 -->|onScrollStart, onScrollEnd| PCM3["PlayerCameraMovement"]
         LM3 -->|getOffset| PCM3
-        LM3 -->|player.render with offset| PL3["Player"]
+        LM3 -->|player.x = spawnX| PL3
+        LM3 -->|render grid + player with offset| PL3
     end
 ```
 

@@ -1,15 +1,25 @@
 {
-  "startPosition": { "x": 200, "y": 300 },
+  "startPosition": { "col": 6, "row": 9 },
   "spaces": [
-    { "path": "/data/spaces/space_0.json", "worldX": 0, "worldY": 0 },
-    { "path": "/data/spaces/space_1.json", "worldX": 2560, "worldY": 0 }
+    { "path": "/data/spaces/space_0.json", "cols": 80, "rows": 18, "tileSize": 32 },
+    { "path": "/data/spaces/space_1.json", "cols": 80, "rows": 18, "tileSize": 32 }
   ],
   "zones": [
     {
       "id": "exit_space_0",
-      "x": 2520, "y": 0, "width": 40, "height": 600,
+      "spaceIndex": 0,
+      "colRel": 79, "row": 0, "wCols": 1, "hRows": 18,
       "type": "spaceTransition",
-      "targetSpaceIndex": 1
+      "targetSpaceIndex": 1,
+      "spawnCol": 2
+    },
+    {
+      "id": "exit_space_1",
+      "spaceIndex": 1,
+      "colRel": 0, "row": 0, "wCols": 1, "hRows": 18,
+      "type": "spaceTransition",
+      "targetSpaceIndex": 0,
+      "spawnCol": 78
     }
   ]
 }

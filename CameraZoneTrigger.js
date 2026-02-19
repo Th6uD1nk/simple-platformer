@@ -31,16 +31,22 @@ class CameraZoneTrigger {
         if (this.spaceLevel) {
             const mid = this.spaceLevel.x + this.canvasWidth / 2;
             const endThreshold = this.spaceLevel.x + this.spaceLevel.width - this.canvasWidth / 2;
-            
             const playerCenter = player.x + player.width / 2;
 
             if (!this._midReached && playerCenter >= mid) {
                 this._midReached = true;
                 this.emit('cameraScrollStart', {});
             }
-
             if (!this._endReached && playerCenter >= endThreshold) {
                 this._endReached = true;
+                this.emit('cameraScrollEnd', {});
+            }
+            if (this._endReached && playerCenter < endThreshold) {
+                this._endReached = false;
+                this.emit('cameraScrollStart', {});
+            }
+            if (this._midReached && playerCenter < mid) {
+                this._midReached = false;
                 this.emit('cameraScrollEnd', {});
             }
         }

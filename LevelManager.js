@@ -31,13 +31,40 @@ class LevelManager {
     async loadLevel(levelIndex) {
         const path = `${LEVELS_BASE_PATH}/level_${levelIndex}.json`;
         const response = await fetch(path);
-        if (!response.ok) {
-            throw new Error(`LevelManager: can't load "${path}" (${response.status})`);
-        }
+        if (!response.ok) throw new Error(`LevelManager: can't load "${path}" (${response.status})`);
 
         this.levelDef = await response.json();
         this.currentLevel = levelIndex;
         this.activeSpaceIndex = 0;
+
+        let cursor = 0;
+        this.levelDef.spaces = this.levelDef.spaces.map(s => {
+            const width  = s.cols * s.tileSize;
+            const height = s.rows * s.tileSize;
+            const entry  = { ...s, worldX: cursor, worldY: 0, width, height };
+            cursor += width;
+            return entry;
+        });
+
+        const ts = this.levelDef.spaces[0].tileSize;
+        this.levelDef.startPosition = {
+            x: this.levelDef.startPosition.col * ts,
+            y: this.levelDef.startPosition.row * ts
+        };
+
+        this.levelDef.zones = this.levelDef.zones.map(z => {
+            const space       = this.levelDef.spaces[z.spaceIndex];
+            const targetSpace = this.levelDef.spaces[z.targetSpaceIndex];
+            const ts          = space.tileSize;
+            return {
+                ...z,
+                x:      space.worldX + z.colRel * ts,
+                y:      z.row * ts,
+                width:  z.wCols * ts,
+                height: z.hRows * ts,
+                spawnX: targetSpace.worldX + z.spawnCol * ts
+            };
+        });
 
         await this._activateSpace(0);
     }
@@ -48,10 +75,15 @@ class LevelManager {
 
         this.activeSpace = await this.spaceLoader.load(spaceDef);
 
+        /*
         const spaceZones = this.levelDef.zones.filter(z =>
             z.x >= this.activeSpace.bounds.x &&
             z.x  < this.activeSpace.bounds.x + this.activeSpace.bounds.width
         );
+        */
+        
+        const spaceZones = this.levelDef.zones.filter(z => z.spaceIndex === spaceIndex);
+        
         this.zoneTrigger.registerZones(spaceZones);
         this.zoneTrigger.setContext(this.activeSpace.bounds, this.canvas.width, this.canvas.height, this.player);
 
@@ -104,14 +136,30 @@ class LevelManager {
     }
 
     _renderGrid(space, ox, oy) {
+
+        this.ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        this.ctx.lineWidth = 1;
+        for (let col = 0; col <= space.cols; col++) {
+            const x = space.bounds.x + col * space.tileSize - ox;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, space.bounds.y - oy);
+            this.ctx.lineTo(x, space.bounds.y + space.bounds.height - oy);
+            this.ctx.stroke();
+        }
+        for (let row = 0; row <= space.rows; row++) {
+            const y = space.bounds.y + row * space.tileSize - oy;
+            this.ctx.beginPath();
+            this.ctx.moveTo(space.bounds.x - ox, y);
+            this.ctx.lineTo(space.bounds.x + space.bounds.width - ox, y);
+            this.ctx.stroke();
+        }
+
         for (let row = 0; row < space.rows; row++) {
             for (let col = 0; col < space.cols; col++) {
                 const block = space.getBlockAt(col, row);
                 if (!block) continue;
-
                 const bx = space.bounds.x + col * space.tileSize - ox;
                 const by = space.bounds.y + row * space.tileSize - oy;
-
                 this.ctx.fillStyle = block.color ?? '#ffffff';
                 this.ctx.fillRect(bx, by, space.tileSize, space.tileSize);
             }
@@ -120,7 +168,11 @@ class LevelManager {
 
     onZoneEnter(zoneData) {
         if (zoneData.type === 'spaceTransition') {
-            this._activateSpace(zoneData.targetSpaceIndex).catch(err => console.error(err));
+            if (zoneData.spawnX !== undefined) {
+                this.player.x = zoneData.spawnX;
+            }
+            this._activateSpace(zoneData.targetSpaceIndex)
+                .catch(err => console.error(err));
         }
         if (zoneData.type === 'load') {
             const targetDef = this.levelDef.spaces[zoneData.targetSpaceIndex];

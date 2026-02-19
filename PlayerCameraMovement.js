@@ -28,7 +28,7 @@ class PlayerCameraMovement {
 
     onScrollEnd() {
         this.scrolling = false;
-        this.scrollLocked = true;
+        // this.scrollLocked = true;
     }
 
     update(player) {

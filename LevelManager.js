@@ -21,6 +21,9 @@ class LevelManager {
         this.zoneTrigger.on('cameraScrollEnd',   () => this.cameraMovement.onScrollEnd());
         this.zoneTrigger.on('zoneEnter', (zoneData) => this.onZoneEnter(zoneData));
         this.zoneTrigger.on('zoneExit',  (zoneData) => this.onZoneExit(zoneData));
+        
+        this.zoneTrigger.on('cameraScrollStartY', () => this.cameraMovement.onScrollStartY());
+        this.zoneTrigger.on('cameraScrollEndY',   () => this.cameraMovement.onScrollEndY());
     }
 
     async init() {

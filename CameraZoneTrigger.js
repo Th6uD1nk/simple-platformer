@@ -7,21 +7,27 @@ class CameraZoneTrigger {
         this.canvasHeight = 0;
         this._midReached = false;
         this._endReached = false;
+        
+        this._midYReached = false;
     }
 
-    setContext(spaceLevel, canvasWidth, canvasHeight, player = null) {
+    setContext(spaceLevel, canvasWidth, canvasHeight, player = null, camHeightMotion = 0) {
         this.spaceLevel = spaceLevel;
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
+        this.camHeightMotion = camHeightMotion;
 
         const mid = spaceLevel.x + canvasWidth / 2;
         const endThreshold = spaceLevel.x + spaceLevel.width - canvasWidth / 2;
-        const playerCenter = player ? player.x + player.width / 2 : -Infinity;
+        const playerCenterX = player ? player.x + player.width / 2 : -Infinity;
 
-        this._midReached = playerCenter >= mid;
-        this._endReached = playerCenter >= endThreshold;
+        this._midReached = playerCenterX >= mid;
+        this._endReached = playerCenterX >= endThreshold;
+        
+        const midY = spaceLevel.y + spaceLevel.height - canvasHeight / 2;
+        const playerCenterY = player ? player.y + player.height / 2 : Infinity;
+        this._midYReached = playerCenterY <= midY;
     }
-
 
     registerZones(zones) {
         this.zones = zones.map(z => ({ ...z, _active: false }));
@@ -49,6 +55,19 @@ class CameraZoneTrigger {
                 this._midReached = false;
                 this.emit('cameraScrollEnd', {});
             }
+        }
+
+        const midY = this.spaceLevel.y + this.spaceLevel.height - this.canvasHeight / 2;
+        const playerCenterY = player.y + player.height / 2;
+
+        if (!this._midYReached && playerCenterY <= midY) {
+            this._midYReached = true;
+            this.emit('cameraScrollStartY', {});
+        }
+
+        if (this._midYReached && playerCenterY > midY) {
+            this._midYReached = false;
+            this.emit('cameraScrollEndY', {});
         }
 
         for (const zone of this.zones) {

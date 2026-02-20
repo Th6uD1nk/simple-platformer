@@ -30,9 +30,21 @@ class SpaceManager {
 
         const spaceZones = levelDef.zones.filter(z => z.spaceIndex === spaceIndex);
         this.zoneTrigger.registerZones(spaceZones);
-        this.zoneTrigger.setContext(this.activeSpace.bounds, this.canvas.width, this.canvas.height, player);
 
-        this.cameraMovement.setSpaceLevel(this.activeSpace.bounds, levelDef.startPosition, player);
+        this.zoneTrigger.setContext(
+            this.activeSpace.bounds,
+            this.canvas.width,
+            this.canvas.height,
+            player,
+            levelDef.camHeightMotion
+        );
+
+        this.cameraMovement.setSpaceLevel(
+            this.activeSpace.bounds,
+            levelDef.startPosition,
+            player,
+            levelDef.camHeightMotion
+        );
 
         const nextDef = levelDef.spaces[spaceIndex + 1];
         if (nextDef) {

@@ -4,8 +4,6 @@ class PlayerCameraMovement {
         this.offset = { x: 0, y: 0 };
         this.spaceLevel = null;
         this.scrolling = false;
-        this.scrollLocked = false;
-        
         this.scrollingY = false;
     }
 
@@ -13,7 +11,6 @@ class PlayerCameraMovement {
         this.spaceLevel = spaceLevel;
         this.camHeightMotion = camHeightMotion;
         this.scrolling = false;
-        this.scrollLocked = false;
         this.scrollingY = false;
 
         if (player) {
@@ -46,19 +43,21 @@ class PlayerCameraMovement {
     update(player) {
         if (!this.spaceLevel) return;
 
-        if (this.scrolling && !this.scrollLocked) {
-            const targetX = player.x + player.width / 2 - this.canvas.width / 2;
-            const maxOffsetX = this.spaceLevel.x + this.spaceLevel.width - this.canvas.width;
-            this.offset.x = Math.max(this.spaceLevel.x, Math.min(targetX, maxOffsetX));
-        }
+        const targetX = player.x + player.width / 2 - this.canvas.width / 2;
+        const smoothedX = this.offset.x + (targetX - this.offset.x) * 0.15;
+        const maxX = this.spaceLevel.x + this.spaceLevel.width - this.canvas.width;
+        const minX = this.spaceLevel.x;
+        this.offset.x = Math.max(minX, Math.min(smoothedX, maxX));
 
         if (this.scrollingY && this.camHeightMotion > 0) {
             const targetY = player.y + player.height / 2 - this.canvas.height / 2;
-
-            const maxOffsetY = this.spaceLevel.y + this.spaceLevel.height - this.canvas.height;
-            const minOffsetY = maxOffsetY - this.camHeightMotion;
-
-            this.offset.y = Math.max(minOffsetY, Math.min(targetY, maxOffsetY));
+            const smoothedY = this.offset.y + (targetY - this.offset.y) * 0.15;
+            const maxY = this.spaceLevel.y + this.spaceLevel.height - this.canvas.height;
+            const minY = maxY - this.camHeightMotion;
+            this.offset.y = Math.max(minY, Math.min(smoothedY, maxY));
+        } else {
+            const baseY = this.spaceLevel.y + this.spaceLevel.height - this.canvas.height;
+            this.offset.y = this.offset.y + (baseY - this.offset.y) * 0.15;
         }
     }
 

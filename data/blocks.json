@@ -5,11 +5,17 @@
     },
     "1": {
         "name": "ground",
-        "color": "#5a3e1b"
+        "color": "#5a3e1b",
+        "registerIn": [
+            { "unit": "collision", "type": "static" }
+        ]
     },
     "2": {
         "name": "wall",
-        "color": "#2e2e2e"
+        "color": "#2e2e2e",
+        "registerIn": [
+            { "unit": "collision", "type": "static" }
+        ]
     },
     "3": {
         "name": "grass",

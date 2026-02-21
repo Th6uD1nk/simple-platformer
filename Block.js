@@ -1,7 +1,8 @@
 export default class Block {
     constructor(type) {
-        this.type = type;
-        this._def = null;
+        this.type       = type;
+        this._def       = null;
+        this.registerIn = null;
     }
 
     build(definitions) {
@@ -11,21 +12,22 @@ export default class Block {
             console.warn(`Block: unknown type "${this.type}"`);
             return this;
         }
-        this._def = def;
-        this.color = def.color;
         
         // todo: other props
-        
+        this._def       = def;
+        this.color      = def.color;
+        this.registerIn = def.registerIn ?? null;
+
         return this;
     }
 
     get isBuilt() {
         return this._def !== null;
     }
-    
+
     render(ctx, x, y, tileSize) {
-      if (!this.color) return;
-      ctx.fillStyle = this.color;
-      ctx.fillRect(x, y, tileSize, tileSize);
+        if (!this.color) return;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(x, y, tileSize, tileSize);
     }
 }

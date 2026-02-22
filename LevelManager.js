@@ -5,7 +5,7 @@ import SpaceManager from './SpaceManager.js';
 const LEVELS_BASE_PATH = '/data/levels';
 
 class LevelManager {
-    constructor(ctx, canvas) {
+    constructor(ctx, canvas, eventManager, gravityUnit, collisionUnit) {
         this.ctx    = ctx;
         this.canvas = canvas;
 
@@ -15,7 +15,7 @@ class LevelManager {
 
         this.cameraMovement = new PlayerCameraMovement(canvas);
         this.zoneTrigger    = new CameraZoneTrigger();
-        this.spaceManager   = new SpaceManager(canvas, this.cameraMovement, this.zoneTrigger);
+        this.spaceManager = new SpaceManager(canvas, this.cameraMovement, this.zoneTrigger, eventManager, gravityUnit, collisionUnit);
 
         this.zoneTrigger.on('cameraScrollStart', () => this.cameraMovement.onScrollStart());
         this.zoneTrigger.on('cameraScrollEnd',   () => this.cameraMovement.onScrollEnd());

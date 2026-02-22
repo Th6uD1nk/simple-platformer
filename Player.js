@@ -1,3 +1,5 @@
+import { RPAD_KEY_UP, RPAD_KEY_LEFT, RPAD_KEY_RIGHT, LPAD_KEY_UP, LPAD_KEY_LEFT, LPAD_KEY_RIGHT } from './InputEvent.js';
+
 class Player {
     constructor(x, y, eventManager) {
         this.x = x;
@@ -10,9 +12,15 @@ class Player {
         this.speed      = 200;
         this.isOnGround = false;
 
-        this.keys = {};
-        window.addEventListener('keydown', e => this.keys[e.key] = true);
-        window.addEventListener('keyup',   e => this.keys[e.key] = false);
+        this.pad = { up: false, down: false, left: false, right: false };
+        this.lpad = { up: false, down: false, left: false, right: false };
+
+        eventManager.on(RPAD_KEY_UP,    ({ pressed }) => this.pad.up    = pressed);
+        eventManager.on(RPAD_KEY_LEFT,  ({ pressed }) => this.pad.left  = pressed);
+        eventManager.on(RPAD_KEY_RIGHT, ({ pressed }) => this.pad.right = pressed);
+        eventManager.on(LPAD_KEY_UP,    ({ pressed }) => this.lpad.up   = pressed);
+        eventManager.on(LPAD_KEY_LEFT,  ({ pressed }) => this.lpad.left = pressed);
+        eventManager.on(LPAD_KEY_RIGHT, ({ pressed }) => this.lpad.right = pressed);
 
         eventManager.on('gravity:apply', ({ entity, dvy }) => {
             if (entity !== this) return;
@@ -38,27 +46,40 @@ class Player {
         });
     }
 
+    // debugging purpose
+    updateForDebug(deltaTime) {
+        if (this.lpad.left)  this.x -= this.speed * deltaTime;
+        if (this.lpad.right) this.x += this.speed * deltaTime;
+        if (this.lpad.up)    this.y -= this.speed * deltaTime;
+        if (this.lpad.down)  this.y += this.speed * deltaTime;
+    }
+  
     update(deltaTime) {
-        this.vx = 0;
-        
-        // debugging purpose
-        if (this.keys['a']) this.x -= this.speed * deltaTime;
-        if (this.keys['d']) this.x += this.speed * deltaTime;
-        if (this.keys['w']) this.y -= this.speed * deltaTime;
-        if (this.keys['s']) this.y += this.speed * deltaTime;
-        //
-        
-        if (this.keys['ArrowLeft']  || this.keys['a']) this.vx = -this.speed;
-        if (this.keys['ArrowRight'] || this.keys['d']) this.vx =  this.speed;
+        const ACCELERATION    = 1500;  // how fast the player reaches max speed
+        const FRICTION_GROUND = 800;   // how fast the player slows down on ground
+        const FRICTION_AIR    = 0;     // air resistance (0 = keep momentum)
+        const JUMP_FORCE      = 500;   // jump strength
 
-        if ((this.keys['ArrowUp'] || this.keys['w'] || this.keys[' ']) && this.isOnGround) {
-            this.vy         = -500;
+        const targetVx = this.pad.left ? -this.speed : this.pad.right ? this.speed : 0;
+        const friction = this.isOnGround ? FRICTION_GROUND : FRICTION_AIR;
+
+        if (targetVx !== 0) {
+            const dir = Math.sign(targetVx - this.vx);
+            this.vx += dir * ACCELERATION * deltaTime;
+            if (Math.sign(targetVx - this.vx) !== dir) this.vx = targetVx;
+        } else {
+            const dir = Math.sign(this.vx);
+            this.vx -= dir * friction * deltaTime;
+            if (Math.sign(this.vx) !== dir) this.vx = 0;
+        }
+
+        if (this.pad.up && this.isOnGround) {
+            this.vy         = -JUMP_FORCE;
             this.isOnGround = false;
         }
 
         this.x += this.vx * deltaTime;
         this.y += this.vy * deltaTime;
-
         this.isOnGround = false;
     }
 

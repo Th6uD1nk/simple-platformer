@@ -1,4 +1,7 @@
-import { RPAD_KEY_UP, RPAD_KEY_LEFT, RPAD_KEY_RIGHT, LPAD_KEY_UP, LPAD_KEY_LEFT, LPAD_KEY_RIGHT } from './InputEvent.js';
+import {
+    RPAD_KEY_UP, RPAD_KEY_LEFT, RPAD_KEY_RIGHT, RPAD_KEY_DOWN,
+    LPAD_KEY_UP, LPAD_KEY_LEFT, LPAD_KEY_RIGHT, LPAD_KEY_DOWN
+} from './InputEvent.js';
 
 class Player {
     constructor(x, y, eventManager) {
@@ -16,9 +19,12 @@ class Player {
         this.lpad = { up: false, down: false, left: false, right: false };
 
         eventManager.on(RPAD_KEY_UP,    ({ pressed }) => this.pad.up    = pressed);
+        eventManager.on(RPAD_KEY_DOWN,  ({ pressed }) => this.pad.down  = pressed);
         eventManager.on(RPAD_KEY_LEFT,  ({ pressed }) => this.pad.left  = pressed);
         eventManager.on(RPAD_KEY_RIGHT, ({ pressed }) => this.pad.right = pressed);
+        
         eventManager.on(LPAD_KEY_UP,    ({ pressed }) => this.lpad.up   = pressed);
+        //eventManager.on(LPAD_KEY_DOWN,  ({ pressed }) => this.lpad.down = pressed);
         eventManager.on(LPAD_KEY_LEFT,  ({ pressed }) => this.lpad.left = pressed);
         eventManager.on(LPAD_KEY_RIGHT, ({ pressed }) => this.lpad.right = pressed);
 
@@ -48,10 +54,10 @@ class Player {
 
     // debugging purpose
     updateForDebug(deltaTime) {
-        if (this.lpad.left)  this.x -= this.speed * deltaTime;
-        if (this.lpad.right) this.x += this.speed * deltaTime;
-        if (this.lpad.up)    this.y -= this.speed * deltaTime;
-        if (this.lpad.down)  this.y += this.speed * deltaTime;
+        if (this.pad.left)  this.x -= this.speed * deltaTime;
+        if (this.pad.right) this.x += this.speed * deltaTime;
+        if (this.pad.up)    this.y -= this.speed * deltaTime;
+        if (this.pad.down)  this.y += this.speed * deltaTime;
     }
   
     update(deltaTime) {

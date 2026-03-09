@@ -70,7 +70,8 @@ async function startGame() {
             bounds,
             levelManager.levelDef.startPosition,
             null,
-            levelManager.levelDef.camHeightMotion ?? 0
+            levelManager.levelDef.camTopMotion ?? 0,
+            levelManager.levelDef.camBottomMotion ?? 0,
         );
     });
 }

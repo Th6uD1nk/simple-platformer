@@ -1,4 +1,4 @@
-const WALK_FRAME_MS = 180;
+const WALK_FRAME_MS = 160;
 
 const WALK_STATES = new Set(['walk-right', 'walk-left']);
 
@@ -23,7 +23,7 @@ const AVATAR_CSS = `
 }
 .player-avatar svg {
     position : absolute;
-    top      : 0;
+    top      : 3px;
     left     : 0;
     width    : 32px;
     height   : 48px;

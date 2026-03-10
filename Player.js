@@ -9,7 +9,6 @@ const PLAYER_SVG_PATH = 'data/assets/player.svg';
 
 class Player {
     constructor(x, y, eventManager) {
-
         this.x          = x;
         this.y          = y;
         this.width      = 32;
@@ -18,7 +17,10 @@ class Player {
         this.vy         = 0;
         this.speed      = 200;
         this.isOnGround = false;
-        this._deltaTime = 0;
+        this._deltaTime     = 0;
+        this._isJumping     = false;
+        this._landingBuffer = false;
+        this._landingTimer  = 0;
 
         this.pad  = { up: false, down: false, left: false, right: false };
         this.lpad = { up: false, down: false, left: false, right: false };
@@ -46,6 +48,11 @@ class Player {
                 this.y         -= overlap;
                 this.vy         = 0;
                 this.isOnGround = true;
+                if (this._isJumping) {
+                    this._isJumping     = false;
+                    this._landingBuffer = true;
+                    this._landingTimer  = 0;
+                }
             } else if (side === 'top') {
                 this.y += overlap;
                 this.vy  = 0;
@@ -67,16 +74,24 @@ class Player {
     _resolveAvatarState() {
         if (!this._avatar) return;
 
+        if (this.pad.left)  this._lastFacing = 'left';
+        if (this.pad.right) this._lastFacing = 'right';
+        if (this.pad.up)    this._isJumping  = true;
+
         let state;
 
-        if (this.pad.left) {
-            this._lastFacing = 'left';
+        if (this._landingBuffer) {
+            state = `idle-${this._lastFacing}`;
+        } else if (this._isJumping) {
+            if (this.pad.down) {
+                state = `crouch-${this._lastFacing}`;
+            } else {
+                state = `jump-${this._lastFacing}`;
+            }
+        } else if (this.pad.left) {
             state = 'walk-left';
         } else if (this.pad.right) {
-            this._lastFacing = 'right';
             state = 'walk-right';
-        } else if (this.pad.up) {
-            state = `jump-${this._lastFacing}`;
         } else if (this.pad.down) {
             state = `crouch-${this._lastFacing}`;
         } else {
@@ -97,17 +112,22 @@ class Player {
     update(deltaTime) {
         this._deltaTime = deltaTime;
 
+        if (this._landingBuffer) {
+            this._landingTimer += deltaTime * 1000;
+            if (this._landingTimer > 320) this._landingBuffer = false;
+        }
+
         const ACCELERATION    = 1500;  // how fast the player reaches max speed
         const FRICTION_GROUND = 800;   // how fast the player slows down on ground
         const FRICTION_AIR    = 0;     // air resistance (0 = keep momentum)
         const JUMP_FORCE      = 500;   // jump strength
-
+        
         const targetVx = this.pad.left ? -this.speed : this.pad.right ? this.speed : 0;
         const friction = this.isOnGround ? FRICTION_GROUND : FRICTION_AIR;
 
         if (targetVx !== 0) {
             const dir = Math.sign(targetVx - this.vx);
-            this.vx += dir * ACCELERATION * deltaTime;
+            this.vx  += dir * ACCELERATION * deltaTime;
             if (Math.sign(targetVx - this.vx) !== dir) this.vx = targetVx;
         } else {
             const dir = Math.sign(this.vx);

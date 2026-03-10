@@ -2,30 +2,37 @@ import {
     RPAD_KEY_UP, RPAD_KEY_LEFT, RPAD_KEY_RIGHT, RPAD_KEY_DOWN,
     LPAD_KEY_UP, LPAD_KEY_LEFT, LPAD_KEY_RIGHT, LPAD_KEY_DOWN
 } from './InputEvent.js';
+import { fetchSVG } from './utils.js';
+import { PlayerAvatar } from './PlayerAvatar.js';
+
+const PLAYER_SVG_PATH = 'data/assets/player.svg';
 
 class Player {
     constructor(x, y, eventManager) {
-        this.x = x;
-        this.y = y;
-        this.width  = 32;
-        this.height = 32;
-        this.color  = '#e74c3c';
-        this.vx = 0;
-        this.vy = 0;
+
+        this.x          = x;
+        this.y          = y;
+        this.width      = 32;
+        this.height     = 48;
+        this.vx         = 0;
+        this.vy         = 0;
         this.speed      = 200;
         this.isOnGround = false;
+        this._deltaTime = 0;
 
-        this.pad = { up: false, down: false, left: false, right: false };
+        this.pad  = { up: false, down: false, left: false, right: false };
         this.lpad = { up: false, down: false, left: false, right: false };
+
+        this._avatar     = null;
+        this._lastFacing = 'right';
 
         eventManager.on(RPAD_KEY_UP,    ({ pressed }) => this.pad.up    = pressed);
         eventManager.on(RPAD_KEY_DOWN,  ({ pressed }) => this.pad.down  = pressed);
         eventManager.on(RPAD_KEY_LEFT,  ({ pressed }) => this.pad.left  = pressed);
         eventManager.on(RPAD_KEY_RIGHT, ({ pressed }) => this.pad.right = pressed);
-        
-        eventManager.on(LPAD_KEY_UP,    ({ pressed }) => this.lpad.up   = pressed);
-        //eventManager.on(LPAD_KEY_DOWN,  ({ pressed }) => this.lpad.down = pressed);
-        eventManager.on(LPAD_KEY_LEFT,  ({ pressed }) => this.lpad.left = pressed);
+
+        eventManager.on(LPAD_KEY_UP,    ({ pressed }) => this.lpad.up    = pressed);
+        eventManager.on(LPAD_KEY_LEFT,  ({ pressed }) => this.lpad.left  = pressed);
         eventManager.on(LPAD_KEY_RIGHT, ({ pressed }) => this.lpad.right = pressed);
 
         eventManager.on('gravity:apply', ({ entity, dvy }) => {
@@ -52,15 +59,44 @@ class Player {
         });
     }
 
-    // debugging purpose
+    async init(container) {
+        const sprites = await fetchSVG(PLAYER_SVG_PATH);
+        this._avatar  = new PlayerAvatar(container, sprites);
+    }
+
+    _resolveAvatarState() {
+        if (!this._avatar) return;
+
+        let state;
+
+        if (this.pad.left) {
+            this._lastFacing = 'left';
+            state = 'walk-left';
+        } else if (this.pad.right) {
+            this._lastFacing = 'right';
+            state = 'walk-right';
+        } else if (this.pad.up) {
+            state = `jump-${this._lastFacing}`;
+        } else if (this.pad.down) {
+            state = `crouch-${this._lastFacing}`;
+        } else {
+            state = `idle-${this._lastFacing}`;
+        }
+
+        this._avatar.setState(state);
+    }
+
     updateForDebug(deltaTime) {
+        this._deltaTime = deltaTime;
         if (this.pad.left)  this.x -= this.speed * deltaTime;
         if (this.pad.right) this.x += this.speed * deltaTime;
         if (this.pad.up)    this.y -= this.speed * deltaTime;
         if (this.pad.down)  this.y += this.speed * deltaTime;
     }
-  
+
     update(deltaTime) {
+        this._deltaTime = deltaTime;
+
         const ACCELERATION    = 1500;  // how fast the player reaches max speed
         const FRICTION_GROUND = 800;   // how fast the player slows down on ground
         const FRICTION_AIR    = 0;     // air resistance (0 = keep momentum)
@@ -75,7 +111,7 @@ class Player {
             if (Math.sign(targetVx - this.vx) !== dir) this.vx = targetVx;
         } else {
             const dir = Math.sign(this.vx);
-            this.vx -= dir * friction * deltaTime;
+            this.vx  -= dir * friction * deltaTime;
             if (Math.sign(this.vx) !== dir) this.vx = 0;
         }
 
@@ -86,14 +122,21 @@ class Player {
 
         this.x += this.vx * deltaTime;
         this.y += this.vy * deltaTime;
+
         this.isOnGround = false;
     }
 
     render(ctx, offsetX, offsetY) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x - offsetX, this.y - offsetY, this.width, this.height);
+        this._resolveAvatarState();
+
+        if (this._avatar) {
+            this._avatar.tick(this._deltaTime * 1000);
+            this._avatar.syncPosition(this.x, this.y, offsetX, offsetY);
+        } else {
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(this.x - offsetX, this.y - offsetY, this.width, this.height);
+        }
     }
 }
 
 export default Player;
-

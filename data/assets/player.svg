@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display:none">
+
+  <g id="state-idle-right">
+    <rect x="12" y="18" width="4" height="11" fill="#c49a45" rx="2"/>
+    <g>
+      <rect x="11" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="11" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g>
+      <rect x="16" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="16" y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="18" y="18" width="4" height="11" fill="#F4C07A" rx="2"/>
+    <rect x="14" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="17" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="21" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-idle-left">
+    <rect x="16" y="18" width="4" height="11" fill="#c49a45" rx="2"/>
+    <g>
+      <rect x="16" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="12" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g>
+      <rect x="11" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="6"  y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="10" y="18" width="4" height="11" fill="#F4C07A" rx="2"/>
+    <rect x="13" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="15" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="11" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-walk-right-a">
+    <rect x="12" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(-22 14 18)"/>
+    <g transform="rotate(-22 13 33)">
+      <rect x="11" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="11" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(22 18 33)">
+      <rect x="16" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="16" y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="18" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(22 20 18)"/>
+    <rect x="14" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="17" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="21" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-walk-right-b">
+    <rect x="12" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(22 14 18)"/>
+    <g transform="rotate(22 13 33)">
+      <rect x="11" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="11" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(-22 18 33)">
+      <rect x="16" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="16" y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="18" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(-22 20 18)"/>
+    <rect x="14" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="17" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="21" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-walk-left-a">
+    <rect x="16" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(22 18 18)"/>
+    <g transform="rotate(22 18 33)">
+      <rect x="16" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="12" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(-22 13 33)">
+      <rect x="11" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="6"  y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="10" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(-22 12 18)"/>
+    <rect x="13" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="15" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="11" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-walk-left-b">
+    <rect x="16" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(-22 18 18)"/>
+    <g transform="rotate(-22 18 33)">
+      <rect x="16" y="33" width="5" height="11" fill="#1a252f" rx="2"/>
+      <rect x="12" y="41" width="9" height="3"  fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="16" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(22 13 33)">
+      <rect x="11" y="33" width="5" height="11" fill="#34495e" rx="2"/>
+      <rect x="6"  y="41" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="10" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(22 12 18)"/>
+    <rect x="13" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="15" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="11" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-jump-right">
+    <rect x="12" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(-40 14 18)"/>
+    <g transform="rotate(-30 13 33)">
+      <rect x="11" y="33" width="5" height="9" fill="#1a252f" rx="2"/>
+      <rect x="11" y="40" width="9" height="3" fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="15" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(30 18 33)">
+      <rect x="16" y="33" width="5" height="9" fill="#34495e" rx="2"/>
+      <rect x="16" y="40" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="18" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(40 20 18)"/>
+    <rect x="14" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="17" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="21" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-jump-left">
+    <rect x="16" y="18" width="4" height="11" fill="#c49a45" rx="2" transform="rotate(40 18 18)"/>
+    <g transform="rotate(30 18 33)">
+      <rect x="16" y="33" width="5" height="9" fill="#1a252f" rx="2"/>
+      <rect x="12" y="40" width="9" height="3" fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="17" width="10" height="15" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(-30 13 33)">
+      <rect x="11" y="33" width="5" height="9" fill="#34495e" rx="2"/>
+      <rect x="6"  y="40" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="10" y="18" width="4" height="11" fill="#F4C07A" rx="2" transform="rotate(-40 12 18)"/>
+    <rect x="13" y="11" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="15" cy="7" r="7" fill="#F4C07A"/>
+    <circle cx="11" cy="6" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-crouch-right">
+    <rect x="12" y="26" width="4" height="9" fill="#c49a45" rx="2" transform="rotate(35 14 26)"/>
+    <g transform="rotate(-45 13 33)">
+      <rect x="11" y="33" width="5" height="8" fill="#1a252f" rx="2"/>
+      <rect x="11" y="39" width="9" height="3" fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="25" width="10" height="10" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(45 18 33)">
+      <rect x="16" y="33" width="5" height="8" fill="#34495e" rx="2"/>
+      <rect x="16" y="39" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="18" y="26" width="4" height="9" fill="#F4C07A" rx="2" transform="rotate(-35 20 26)"/>
+    <rect x="14" y="19" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="17" cy="15" r="7" fill="#F4C07A"/>
+    <circle cx="21" cy="14" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+  <g id="state-crouch-left">
+    <rect x="16" y="26" width="4" height="9" fill="#c49a45" rx="2" transform="rotate(-35 18 26)"/>
+    <g transform="rotate(45 18 33)">
+      <rect x="16" y="33" width="5" height="8" fill="#1a252f" rx="2"/>
+      <rect x="12" y="39" width="9" height="3" fill="#111820" rx="1"/>
+    </g>
+    <rect x="11" y="25" width="10" height="10" fill="#e74c3c" rx="2"/>
+    <g transform="rotate(-45 13 33)">
+      <rect x="11" y="33" width="5" height="8" fill="#34495e" rx="2"/>
+      <rect x="6"  y="39" width="10" height="3" fill="#2c3e50" rx="1"/>
+    </g>
+    <rect x="10" y="26" width="4" height="9" fill="#F4C07A" rx="2" transform="rotate(35 12 26)"/>
+    <rect x="13" y="19" width="5" height="5" fill="#F4C07A"/>
+    <circle cx="15" cy="15" r="7" fill="#F4C07A"/>
+    <circle cx="11" cy="14" r="1.5" fill="#1a1a2e"/>
+  </g>
+
+</svg>

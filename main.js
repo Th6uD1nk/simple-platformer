@@ -31,6 +31,7 @@ async function startGame() {
 
     const { x, y } = levelManager.levelDef.startPosition;
     const player = new Player(x, y, eventManager);
+    await player.init(document.body);
 
     gravityUnit.register(player);
     collisionUnit.registerDynamic(player);

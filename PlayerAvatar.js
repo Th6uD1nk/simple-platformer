@@ -16,10 +16,13 @@ const STATE_SPRITES = {
 const AVATAR_CSS = `
 .player-avatar {
     position       : absolute;
+    top            : 0;
+    left           : 0;
     width          : 32px;
     height         : 48px;
     overflow       : visible;
     pointer-events : none;
+    will-change    : transform;
 }
 .player-avatar svg {
     position : absolute;
@@ -95,10 +98,9 @@ export class PlayerAvatar {
         this._walkTimer = 0;
         this._showCurrentFrame();
     }
-
+    
     syncPosition(worldX, worldY, offsetX, offsetY) {
-        this._el.style.left = `${Math.round(worldX - offsetX)}px`;
-        this._el.style.top  = `${Math.round(worldY - offsetY)}px`;
+      this._el.style.transform = `translate(${Math.round(worldX - offsetX)}px, ${Math.round(worldY - offsetY)}px)`;
     }
 
     _hideAll() {

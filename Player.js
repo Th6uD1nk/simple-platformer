@@ -81,7 +81,13 @@ class Player {
         let state;
 
         if (this._landingBuffer) {
-            state = `idle-${this._lastFacing}`;
+            if (this.pad.left) {
+                state = 'walk-left';
+            } else if (this.pad.right) {
+                state = 'walk-right';
+            } else {
+                state = `idle-${this._lastFacing}`;
+            }
         } else if (this._isJumping) {
             if (this.pad.down) {
                 state = `crouch-${this._lastFacing}`;
@@ -114,7 +120,7 @@ class Player {
 
         if (this._landingBuffer) {
             this._landingTimer += deltaTime * 1000;
-            if (this._landingTimer > 320) this._landingBuffer = false;
+            if (this._landingTimer > 480) this._landingBuffer = false;
         }
 
         const ACCELERATION    = 1500;  // how fast the player reaches max speed

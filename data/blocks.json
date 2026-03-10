@@ -19,7 +19,10 @@
     },
     "3": {
         "name": "grass",
-        "color": "#4caf50"
+        "color": "#4caf50",
+        "registerIn": [
+            { "unit": "collision", "type": "static" }
+        ]
     },
     "4": {
         "name": "water",

@@ -7,9 +7,12 @@ class PlayerCameraMovement {
         this.scrollingY = false;
     }
 
-    setSpaceLevel(spaceLevel, startPosition, player = null, camHeightMotion = 0) {
+    setSpaceLevel(spaceLevel, startPosition, player = null,
+        camTopMotion = 0, camBottomMotion = 0) {
+          
         this.spaceLevel = spaceLevel;
-        this.camHeightMotion = camHeightMotion;
+        this.camTopMotion = camTopMotion;
+        this.camBottomMotion = camBottomMotion;
         this.scrolling = false;
         this.scrollingY = false;
 
@@ -49,15 +52,20 @@ class PlayerCameraMovement {
         const minX = this.spaceLevel.x;
         this.offset.x = Math.max(minX, Math.min(smoothedX, maxX));
 
-        if (this.scrollingY && this.camHeightMotion > 0) {
+        if (this.scrollingY && this.camTopMotion > 0) {
             const targetY = player.y + player.height / 2 - this.canvas.height / 2;
             const smoothedY = this.offset.y + (targetY - this.offset.y) * 0.15;
             const maxY = this.spaceLevel.y + this.spaceLevel.height - this.canvas.height;
-            const minY = maxY - this.camHeightMotion;
+            const minY = maxY - this.camTopMotion;
             this.offset.y = Math.max(minY, Math.min(smoothedY, maxY));
         } else {
             const baseY = this.spaceLevel.y + this.spaceLevel.height - this.canvas.height;
-            this.offset.y = this.offset.y + (baseY - this.offset.y) * 0.15;
+            const MARGIN = this.camBottomMotion;
+            const playerBottom = player.y + player.height;
+            const targetY = playerBottom + MARGIN - this.canvas.height;
+            
+            const finalTargetY = Math.max(baseY, targetY);
+            this.offset.y = this.offset.y + (finalTargetY - this.offset.y) * 0.15;
         }
     }
 

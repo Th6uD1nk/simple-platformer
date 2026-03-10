@@ -11,6 +11,7 @@
 
 ### Class interactions
 
+**1. Initialization - dependency injection**
 ```mermaid
 graph LR
     subgraph init["Init"]
@@ -29,6 +30,7 @@ graph LR
     end
 ```
 
+**2. Level loading - space building and entity registration**
 ```mermaid
 graph LR
     subgraph load["Load Level"]
@@ -50,6 +52,7 @@ graph LR
     end
 ```
 
+**3. Game loop - update, physics and rendering**
 ```mermaid
 graph LR
     subgraph loop["Game Loop"]
@@ -69,5 +72,20 @@ graph LR
         LM3 -->|render spaces| SL3["SpaceLevel"]
         SL3 -->|render blocks| BL3["Block"]
         LM3 -->|render player| PL3
+    end
+```
+
+**4. Input - keyboard / mobile abstraction to player**
+```mermaid
+graph LR
+    subgraph input["Input"]
+        main["main.js"] -->|detect platform| main
+        main -->|new| KU["KeyboardUnit"]
+        main -->|new| TPU["TouchPadUnit"]
+        KU -->|emit RPAD/LPAD events| EM["EventManager"]
+        TPU -->|emit RPAD/LPAD events| EM
+        EM -->|RPAD_KEY_*| PL["Player"]
+        EM -->|LPAD_KEY_*| PL
+        main -->|render| TPU
     end
 ```

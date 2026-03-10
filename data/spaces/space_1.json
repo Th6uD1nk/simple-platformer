@@ -1,7 +1,7 @@
 {
   "id": "space_1",
   "tileSize": 32,
-  "cols": 80,
+  "cols": 160,
   "rows": 18,
   "color": "#1a5276",
   "grid": []

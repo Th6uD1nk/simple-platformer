@@ -58,13 +58,14 @@ class SpaceManager {
             this.canvas.width,
             this.canvas.height,
             player,
-            levelDef.camHeightMotion
+            levelDef.camTopMotion
         );
         this.cameraMovement.setSpaceLevel(
             this.activeSpace.bounds,
             levelDef.startPosition,
             player,
-            levelDef.camHeightMotion
+            levelDef.camTopMotion,
+            levelDef.camBottomMotion
         );
 
         const nextDef = levelDef.spaces[spaceIndex + 1];

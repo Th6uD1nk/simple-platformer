@@ -11,11 +11,11 @@ class CameraZoneTrigger {
         this._midYReached = false;
     }
 
-    setContext(spaceLevel, canvasWidth, canvasHeight, player = null, camHeightMotion = 0) {
+    setContext(spaceLevel, canvasWidth, canvasHeight, player = null, camTopMotion = 0) {
         this.spaceLevel = spaceLevel;
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        this.camHeightMotion = camHeightMotion;
+        this.camTopMotion = camTopMotion;
 
         const mid = spaceLevel.x + canvasWidth / 2;
         const endThreshold = spaceLevel.x + spaceLevel.width - canvasWidth / 2;

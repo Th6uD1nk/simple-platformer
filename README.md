@@ -1,9 +1,9 @@
 # simple-platformer
 
 ## How to run
-**Android:** You can use Acode, then run `index.html`  
-**PC:** Run `python -m http.server 8080` from the root directory, then open `http://localhost:8080` in your browser  
-
+**Android:** Use Acode, open `index.html`
+**PC (localhost):** `python -m http.server 8080` → `http://localhost:8080`
+**PC (local network):** `python -m http.server 8080 --bind 192.168.?.?`
 
 ---
 

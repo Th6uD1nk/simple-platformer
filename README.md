@@ -1,9 +1,69 @@
-# simple-platformer
+# Simple Platformer
 
 ## How to run
-**Android:** Use Acode, open `index.html`
-**PC (localhost):** `python -m http.server 8080` → `http://localhost:8080`
-**PC (local network):** `python -m http.server 8080 --bind 192.168.?.?`
+
+### On Android
+
+1. You can use something like **Acode** in the `www` folder and open `index.html`.
+
+2. Or build a signed APK:
+
+#### Generate your key (keystore)
+
+```bash
+keytool -genkeypair \
+  -alias simpleplatformer \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000 \
+  -keystore simpleplatformer.keystore \
+  -dname "CN=EdleCode, OU=Dev, O=EdleCode, L=Paris, ST=Ile-de-France, C=FR" \
+  -storepass password123 \
+  -keypass password123
+````
+
+#### Build the APK
+
+```bash
+cordova build android --release -- --packageType=apk
+```
+
+#### Sign the APK
+
+```bash
+$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner sign \
+  --ks simpleplatformer.keystore \
+  --ks-key-alias simpleplatformer \
+  --ks-pass pass:password123 \
+  --key-pass pass:password123 \
+  --out platforms/android/app/build/outputs/apk/release/app-release-signed.apk \
+  platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+```
+
+### On PC
+
+1. Go to the `www` folder.
+
+2. Run a local server:
+
+* For localhost only:
+
+```bash
+python -m http.server 8080
+```
+
+* For local network access:
+
+```bash
+python -m http.server 8080 --bind 192.168.x.x
+```
+
+3. Open in browser:
+
+```
+http://localhost:8080
+```
+
 
 ---
 

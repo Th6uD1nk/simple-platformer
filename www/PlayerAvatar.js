@@ -25,8 +25,10 @@ const AVATAR_CSS = `
     will-change    : transform;
 }
 .player-avatar svg {
+    transform: scale(1.2);
+    transform-origin: center;
     position : absolute;
-    top      : 3px;
+    top      : 1px;
     left     : 0;
     width    : 32px;
     height   : 48px;

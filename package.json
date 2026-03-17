@@ -1,0 +1,28 @@
+{
+  "name": "com.edlecode.simpleplatformer",
+  "displayName": "SimplePlatformer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "EdleCode & Th6uD1nk",
+  "license": "MIT",
+  "devDependencies": {
+    "cordova-android": "^15.0.0",
+    "cordova-plugin-statusbar": "^2.4.3"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-statusbar": {}
+    }
+  },
+  "dependencies": {}
+}
